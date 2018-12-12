@@ -1,0 +1,15 @@
+{
+  "name": "wsnet",
+  "version": "1.0.0",
+  "description": "WebSocket virtual private networking",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremie A. <lp1.eu>",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^3.3.2",
+    "ws": "^6.1.2"
+  }
+}

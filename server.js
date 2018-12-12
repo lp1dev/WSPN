@@ -8,13 +8,18 @@ const connected = []
 const clients = {}
 const networks = {}
 
-function dispatch(source, network, message) {
-    console.log(`Dispatching ${message} to ${network}`)
-    networks[network].forEach(webSocket => {
-        if (webSocket !== source && webSocket.readyState === webSocket.OPEN) {
-            webSocket.send(message)
+function dispatch(source,  message) {
+    for (const network in networks) {
+        console.log(networks)
+        if (networks[network].includes(source)) {
+            console.log(`Dispatching ${message} to ${network}`)
+            networks[network].forEach(webSocket => {
+                if (webSocket !== source && webSocket.readyState === webSocket.OPEN) {
+                    webSocket.send(message)
+                }
+            })
         }
-    })
+    }
 }
 
 function auth(webSocket) {
@@ -35,13 +40,7 @@ function onMessage(message, webSocket) {
         webSocket.send('Error: Invalid message format')
         return
     } else if (!value) {
-        for (const network in networks) {
-            console.log(networks)
-            if (networks[network].includes(webSocket)) {
-                dispatch(webSocket, network, key)
-            }
-        }
-        return
+        dispatch(webSocket, message)
     }
     const client = auth(webSocket)
     if (!['Connect', 'Id'].includes(key) && !client) {
@@ -90,6 +89,9 @@ function onMessage(message, webSocket) {
         } else {
             webSocket.send('Error: There is no such network')
         }
+        break
+    default:
+        dispatch(webSocket, message)
         break
     }
 }

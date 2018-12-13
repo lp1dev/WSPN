@@ -5,7 +5,7 @@ WSNet is a Node.js service creating networks of client WebSockets.
 You can create networks to communicate with others WebSockets outside of your LAN,
 without exposing your server on the WAN and having to manage NAT rules.
 
-Example :
+# Example :
 
 You created a game client A and need it to communicate with another game client B through a WebSocket.
 

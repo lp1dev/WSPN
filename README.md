@@ -17,7 +17,7 @@ every message you're going to send though the WebSocket is going to be shared to
 
 Code Sample to create a network and send a message :
 
-```
+```javascript
 const WebSocket = require('ws')
 const webSocket = new WebSocket('wss://your-server.net:1337')
 const cert = require('./certificate.json')
@@ -28,5 +28,4 @@ webSocket.on('open', (ws) => {
     webSocket.send('Create: MyAwesomeGame')
     webSocket.send('Hello everyone!')
 })
-
 ```

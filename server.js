@@ -5,7 +5,7 @@ const header = `WSNet Server :: v0.0.1`
 const certificate = require('./certificate.json')
 
 const connected = []
-const clients = {}
+let clients = {}
 const networks = {}
 
 function dispatch(source,  message) {
@@ -101,10 +101,11 @@ function logout(webSocket) {
     if (index != -1) {
         connected.splice(index, 1)
     }
+
     for (const client in clients) {
-        if (clients[client] == webSocket) {
-            delete clients[client]
-        }
+	if (clients[client] == webSocket) {
+	    delete clients[client]
+	}
     }
 }
 
@@ -120,13 +121,15 @@ function onClose(reason, webSocket) {
 
 function onConnection(webSocket, request) {
     console.log('Client connected', request.connection.remoteAddress)
-    try {
-        webSocket.send(header)
-        webSocket.on('message', (message) => onMessage(message, webSocket))
-        webSocket.on('error', (error) => onError(error, webSocket))
-        webSocket.on('close', (reason) => onClose(reason, webSocket))
-    } catch (e) {
-        console.error(e)
+    if (request.connection.remoteAddress) {
+	try {
+            webSocket.send(header)
+            webSocket.on('message', (message) => onMessage(message, webSocket))
+            webSocket.on('error', (error) => onError(error, webSocket))
+            webSocket.on('close', (reason) => onClose(reason, webSocket))
+	} catch (e) {
+            console.error(e)
+	}
     }
 }
 
